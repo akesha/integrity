@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Integrity Compass — Academic Integrity in Luddy (15 min)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16110F;
+  --ink-2:#1F1917;
+  --ink-3:#2A2320;
+  --cream:#F5F0E8;
+  --cream-dim:#C9BFB2;
+  --cream-faint:#8A8078;
+  --crimson:#EF5F6E;
+  --crimson-deep:#8E1A28;
+  --gold:#E9B44C;
+  --teal:#6FC3B8;
+  --line:rgba(245,240,232,.14);
+  --stage-w:1280px;
+  --stage-h:720px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0C0908;overflow:hidden}
+body{
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--cream);
+  -webkit-font-smoothing:antialiased;
+  display:flex;align-items:center;justify-content:center;
+}
+#viewport{position:relative;width:100vw;height:100vh;overflow:hidden}
+#stage{
+  position:absolute;top:50%;left:50%;
+  width:var(--stage-w);height:var(--stage-h);
+  transform-origin:center center;
+  background:var(--ink);
+  box-shadow:0 0 0 1px rgba(245,240,232,.08), 0 40px 120px rgba(0,0,0,.7);
+}
+/* ---------- slides ---------- */
+.slide{
+  position:absolute;inset:0;
+  padding:54px 72px 88px;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  background:var(--ink);
+}
+.slide.active{display:flex;animation:slidein .34s cubic-bezier(.2,.7,.3,1)}
+@keyframes slidein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.eyebrow{
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;display:flex;align-items:center;gap:10px;
+}
+.eyebrow .tick{width:22px;height:1px;background:var(--gold);display:inline-block}
+h1{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:76px;line-height:1.02;letter-spacing:-.01em}
+h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:50px;line-height:1.06;letter-spacing:-.005em;margin-top:14px}
+h3{font-size:17px;font-weight:600;letter-spacing:.005em}
+p{font-size:17px;line-height:1.55;color:var(--cream-dim);max-width:64ch}
+.lede{font-size:21px;line-height:1.5;color:var(--cream);max-width:52ch}
+.small{font-size:13.5px;line-height:1.5;color:var(--cream-faint)}
+em{font-style:italic}
+strong{color:var(--cream);font-weight:600}
+.crimson{color:var(--crimson)}
+.gold{color:var(--gold)}
+.teal{color:var(--teal)}
+
+/* ---------- layout helpers ---------- */
+.row{display:flex;gap:28px}
+.grow{flex:1}
+.spacer{flex:1}
+.cols-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.cols-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cols-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.mt-a{margin-top:auto}
+
+/* ---------- cards ---------- */
+.card{
+  background:var(--ink-2);border:1px solid var(--line);
+  padding:20px 22px;border-radius:3px;position:relative;
+}
+.card.rule{border-left:2px solid var(--crimson)}
+.card.rule-gold{border-left:2px solid var(--gold)}
+.card h3{margin-bottom:7px}
+.card p{font-size:14.5px;line-height:1.5}
+.num{
+  font-family:"Instrument Serif",Georgia,serif;font-size:38px;line-height:1;
+  color:var(--crimson);display:block;margin-bottom:6px;
+}
+
+/* ---------- title slide ---------- */
+.title-wrap{display:flex;flex-direction:column;height:100%;justify-content:center}
+.title-meta{display:flex;gap:34px;margin-top:34px;padding-top:22px;border-top:1px solid var(--line)}
+.title-meta div{font-size:13px;color:var(--cream-faint);line-height:1.5}
+.title-meta b{display:block;color:var(--cream);font-size:14px;font-weight:600;margin-bottom:2px}
+
+/* ---------- code panels ---------- */
+.code{
+  font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  font-size:14px;line-height:1.72;background:#0D0A09;
+  border:1px solid var(--line);padding:16px 18px;border-radius:3px;
+  white-space:pre;overflow:hidden;color:#DCD5CA;
+}
+.code .c{color:#9A9086}
+.code .k{color:var(--teal)}
+.code .f{color:var(--gold)}
+.code-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream-faint);margin-bottom:8px;font-weight:600}
+
+/* ---------- interactive: reveal ---------- */
+.btn{
+  font-family:inherit;font-size:14px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink);background:var(--gold);border:0;
+  padding:11px 20px;border-radius:2px;cursor:pointer;transition:.16s;
+}
+.btn:hover{background:#F3C876;transform:translateY(-1px)}
+.btn:active{transform:none}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--ink-3);border-color:var(--cream-faint)}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn:focus-visible,.opt:focus-visible,.check:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+.reveal{
+  display:none;background:var(--ink-2);border:1px solid var(--line);
+  border-left:2px solid var(--gold);padding:18px 22px;border-radius:3px;
+}
+.reveal.show{display:block;animation:pop .3s cubic-bezier(.2,.8,.3,1)}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.verdict{font-family:"Instrument Serif",Georgia,serif;font-size:29px;line-height:1.1;margin-bottom:8px}
+
+/* ---------- interactive: poll ---------- */
+.poll{display:flex;flex-direction:column;gap:9px}
+.opt{
+  position:relative;display:flex;align-items:center;gap:14px;
+  background:var(--ink-2);border:1px solid var(--line);border-radius:3px;
+  padding:13px 16px;cursor:pointer;text-align:left;
+  font-family:inherit;font-size:15.5px;color:var(--cream);
+  transition:border-color .16s, background .16s;overflow:hidden;
+}
+.opt:hover{border-color:var(--cream-faint);background:var(--ink-3)}
+.opt .fill{
+  position:absolute;inset:0 auto 0 0;width:0;background:rgba(233,180,76,.16);
+  transition:width .5s cubic-bezier(.2,.8,.3,1);
+}
+.opt .key{
+  position:relative;flex:0 0 26px;height:26px;border:1px solid var(--cream-faint);
+  border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;
+  color:var(--cream-dim);
+}
+.opt .txt{position:relative;flex:1;line-height:1.35}
+.opt .tally{position:relative;font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--gold);min-width:26px;text-align:right}
+.opt.picked{border-color:var(--gold)}
+.opt.picked .key{border-color:var(--gold);color:var(--gold)}
+.opt.correct{border-color:var(--teal)}
+.opt.correct .key{border-color:var(--teal);color:var(--teal);background:rgba(111,195,184,.12)}
+.poll-note{font-size:12.5px;color:var(--cream-faint);display:flex;align-items:center;gap:8px}
+
+/* ---------- stat bars ---------- */
+.stat{margin-bottom:16px}
+.stat-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.stat-label{font-size:14px;color:var(--cream)}
+.stat-val{font-family:"Instrument Serif",Georgia,serif;font-size:30px;line-height:1}
+.track{height:9px;background:var(--ink-3);border-radius:99px;overflow:hidden}
+.bar{height:100%;width:0;border-radius:99px;transition:width .9s cubic-bezier(.2,.8,.3,1)}
+.bar.b1{background:var(--crimson)}
+.bar.b2{background:var(--cream-faint)}
+
+/* ---------- self check ---------- */
+.check{
+  display:flex;gap:13px;align-items:flex-start;text-align:left;width:100%;
+  background:var(--ink-2);border:1px solid var(--line);border-radius:3px;
+  padding:14px 16px;cursor:pointer;font-family:inherit;color:var(--cream);
+  transition:.16s;
+}
+.check:hover{border-color:var(--cream-faint)}
+.check .box{
+  flex:0 0 20px;height:20px;border:1px solid var(--cream-faint);border-radius:2px;
+  margin-top:1px;display:grid;place-items:center;font-size:13px;color:var(--ink);
+}
+.check.on{border-color:var(--teal);background:rgba(111,195,184,.07)}
+.check.on .box{background:var(--teal);border-color:var(--teal)}
+.check .ct{font-size:14.5px;line-height:1.42}
+.check .ct b{display:block;font-weight:600;margin-bottom:2px}
+.check .ct span{color:var(--cream-faint);font-size:13px}
+
+/* ---------- scavenger timer ---------- */
+.bigclock{
+  font-family:"IBM Plex Mono",monospace;font-size:64px;font-weight:500;
+  letter-spacing:-.02em;line-height:1;color:var(--gold);
+}
+.bigclock.warn{color:var(--crimson)}
+
+/* ---------- table ---------- */
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th{
+  text-align:left;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--cream-faint);font-weight:600;padding:0 14px 9px 0;border-bottom:1px solid var(--line);
+}
+td{padding:13px 14px 13px 0;border-bottom:1px solid var(--line);color:var(--cream-dim);vertical-align:top;line-height:1.45}
+td:first-child{color:var(--cream);font-weight:600;width:120px}
+
+/* ---------- chrome: phase rail + footer ---------- */
+#rail{
+  position:absolute;left:72px;right:72px;bottom:30px;
+  display:flex;align-items:center;gap:16px;
+}
+#phases{display:flex;gap:5px;flex:1}
+.ph{flex:0 0 auto;height:3px;background:var(--ink-3);border-radius:99px;position:relative;transition:.3s}
+.ph i{position:absolute;inset:0;width:0;background:var(--cream-faint);border-radius:99px;transition:width .35s}
+.ph.on i{background:var(--gold)}
+.ph.done i{width:100%!important;background:var(--crimson-deep)}
+#phase-name{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cream-faint);font-weight:600;min-width:190px}
+#clock{
+  font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--cream-faint);
+  display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none;
+}
+#clock .dot{width:6px;height:6px;border-radius:50%;background:var(--cream-faint)}
+#clock.run .dot{background:var(--teal);animation:pulse 2s infinite}
+#clock.over{color:var(--crimson)}
+#clock.over .dot{background:var(--crimson)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+#pgnum{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--cream-faint);min-width:44px;text-align:right}
+
+/* ---------- notes ---------- */
+#notes{
+  position:absolute;left:0;right:0;bottom:0;max-height:47%;
+  background:#0A0706;border-top:1px solid var(--gold);
+  padding:20px 72px 22px;display:none;overflow-y:auto;
+}
+#notes.show{display:block}
+#notes h4{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;font-weight:600}
+#notes .nb{font-size:14px;line-height:1.6;color:var(--cream-dim);max-width:92ch;white-space:pre-line}
+#notes .nb b{color:var(--cream)}
+
+/* ---------- help ---------- */
+#help{
+  position:absolute;top:18px;right:20px;font-size:11px;color:var(--cream-faint);
+  font-family:"IBM Plex Mono",monospace;letter-spacing:.04em;opacity:.5;
+}
+#src{position:absolute;left:72px;bottom:11px;font-size:11px;color:#847B73;letter-spacing:.02em}
+@media print{body{overflow:visible}}
+</style>
+</head>
+<body>
+<div id="viewport">
+<div id="stage">
+
+<!-- ══════════════ 1. TITLE ══════════════ -->
+<section class="slide" data-phase="0" data-notes="<b>0:00 to 0:20.</b> Do not read the slide. Say the room's actual situation out loud: everyone here has already used AI this week, and nobody is entirely sure where the line is.
+
+Frame the 15 minutes: <b>this is not a rules lecture.</b> Four decisions, three questions, one habit they can use tonight.
+
+Press → to start the timer. Press N any time to toggle these notes. Press T to pause the clock.">
+  <div class="title-wrap">
+    <div class="eyebrow"><span class="tick"></span>Luddy School of Informatics, Computing &amp; Engineering</div>
+    <h1 style="margin-top:26px">The Integrity<br>Compass</h1>
+    <p class="lede" style="margin-top:26px">Fifteen minutes on academic integrity for graduate work in computing. You will make four real decisions, and you will not agree with each other on all of them.</p>
+    <div class="title-meta">
+      <div><b>4 decisions</b>Code. Data. AI policy. Yourself.</div>
+      <div><b>3 questions</b>The habit you leave with.</div>
+      <div><b>0 lectures</b>You vote before I answer.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 2. OPENING POLL ══════════════ -->
+<section class="slide" data-phase="0" data-notes="<b>0:20 to 2:00.</b> Read the setup, then ask for hands one option at a time. Click that option once per hand you count. The Reveal button stays locked until at least one vote lands, so you cannot skip the count.
+
+<b>Say it before you ask:</b> hands up honestly, nobody is writing anything down. In a room where you are the one grading them, they will default to the answer that sounds right. Name that out loud and you get better data.
+
+<b>Expect a split.</b> That is the point. Do not resolve it yet. The reveal names the real problem: they are all reasoning from instinct, and instinct is not a policy.
+
+If someone argues for 'it's boilerplate,' agree that it is a real position, then ask who decides. That question carries the next 13 minutes.">
+  <div class="eyebrow"><span class="tick"></span>Warm-up · vote first</div>
+  <h2>You paste six lines from Stack&nbsp;Overflow into an assignment. Do you cite it?</h2>
+  <div class="row" style="margin-top:26px;gap:36px">
+    <div class="grow">
+      <div class="poll" data-poll="p1">
+        <button class="opt" data-i="0"><span class="fill"></span><span class="key">A</span><span class="txt">Always. Any borrowed code gets a comment.</span><span class="tally">0</span></button>
+        <button class="opt" data-i="1"><span class="fill"></span><span class="key">B</span><span class="txt">Only if the syllabus tells me to.</span><span class="tally">0</span></button>
+        <button class="opt" data-i="2"><span class="fill"></span><span class="key">C</span><span class="txt">No. Six lines is boilerplate, not authorship.</span><span class="tally">0</span></button>
+        <button class="opt" data-i="3"><span class="fill"></span><span class="key">D</span><span class="txt">Depends on the license attached to it.</span><span class="tally">0</span></button>
+      </div>
+      <div class="poll-note" style="margin-top:14px">
+        <button class="btn" data-reveal="r1" disabled>Reveal</button>
+        <span>Hands up. Every hand gets counted before anyone gets an answer.</span>
+      </div>
+    </div>
+    <div style="flex:0 0 430px;display:flex;align-items:center">
+      <div class="card prehide" style="border-left:2px solid var(--cream-faint);width:100%">
+        <div class="code-label">Before you vote</div>
+        <p style="font-size:15px;color:var(--cream);line-height:1.5">Answer what you <em>actually did</em> last semester, not what sounds correct in a room with your instructor in it.</p>
+      </div>
+      <div class="reveal" id="r1" style="width:100%">
+        <div class="verdict gold">Every one of you was right.</div>
+        <p style="font-size:15px">And that is the problem. Four defensible answers means you are each running a private policy you have never written down. Private policies fail under deadline pressure, and they fail in front of a review board.</p>
+        <p style="font-size:15px;margin-top:10px"><strong>For the next 13 minutes we replace instinct with a procedure.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 3. THE SPINE ══════════════ -->
+<section class="slide" data-phase="1" data-notes="<b>2:00 to 2:45.</b> This slide is the architecture of the session and the one transferable idea in it.
+
+Say it plainly: integrity is not a personality trait, it is a set of decisions made at four moments. Research on self-regulated learning finds that these strategies work far better when they are taught <b>explicitly</b> than when they are left implicit in the assignment design (Fahrni, Hascher &amp; Prasse, 2025).
+
+So: we are naming them out loud instead of hoping they absorb it.
+
+Point at the four columns and tell them the rest of the session follows this order. Then move fast.">
+  <div class="eyebrow"><span class="tick"></span>The spine of the next 13 minutes</div>
+  <h2>Integrity is not a virtue. It is four decisions,<br>made at four moments.</h2>
+  <div class="cols-4" style="margin-top:34px">
+    <div class="card rule"><span class="num">01</span><h3>Before you start</h3><p>What is actually being asked, and what counts as mine?</p></div>
+    <div class="card rule"><span class="num">02</span><h3>While you work</h3><p>Is what I am producing still matching the standard I set?</p></div>
+    <div class="card rule"><span class="num">03</span><h3>When time runs out</h3><p>The pressure point. Almost every violation lives here.</p></div>
+    <div class="card rule"><span class="num">04</span><h3>Before you submit</h3><p>What do I need to disclose, and to whom?</p></div>
+  </div>
+  <p style="margin-top:30px;max-width:78ch">Skipping any one of these is how good people produce misconduct. Notice that only the fourth is about honesty. The first three are about <strong>planning</strong>, and planning is a skill, which means it is learnable.</p>
+</section>
+
+<!-- ══════════════ 4. DECISION 1: CODE ══════════════ -->
+<section class="slide" data-phase="1" data-notes="<b>2:45 to 5:00.</b> Decision one. Give them 30 seconds to look at both panels before you say anything. Ask for a verdict by show of hands before revealing.
+
+The logic is identical. Only names and comments changed. In prose this is textbook paraphrase without attribution. Code has no quotation marks, which is exactly why the burden shifts to comments.
+
+<b>The line that lands:</b> in writing you have quotation marks, block quotes, and citation styles. In code you have one tool, the comment, and most students never use it for attribution.
+
+If a student says 'but it's the mean function, there are only so many ways to write it,' that is a genuinely good objection. Answer: correct, and the way you protect yourself costs one line.">
+  <div class="eyebrow"><span class="tick"></span>Decision 1 of 4 · Code</div>
+  <h2 style="font-size:44px">Same logic. New names. Is this a violation?</h2>
+  <div class="cols-2" style="margin-top:22px">
+    <div>
+      <div class="code-label">Source A · found on Stack Overflow</div>
+      <div class="code"><span class="k">def</span> <span class="f">get_avg</span>(data):
+    <span class="c"># compute the sum</span>
+    s = <span class="f">sum</span>(data)
+    <span class="k">return</span> s / <span class="f">len</span>(data)</div>
+    </div>
+    <div>
+      <div class="code-label">Source B · what the student submitted</div>
+      <div class="code"><span class="k">def</span> <span class="f">calculate_mean</span>(input_list):
+    <span class="c"># total up the values</span>
+    val_sum = <span class="f">sum</span>(input_list)
+    <span class="k">return</span> val_sum / <span class="f">len</span>(input_list)</div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:22px;align-items:flex-start;gap:24px">
+    <button class="btn" data-reveal="r2" style="flex:0 0 auto">Reveal the verdict</button>
+    <div class="reveal grow" id="r2">
+      <div class="verdict"><span class="crimson">Yes.</span> Renaming is not authoring.</div>
+      <p style="font-size:15px">Identical logic with new variable names is paraphrase without attribution. Prose gives you quotation marks and block quotes to mark borrowed text. <strong>Code gives you exactly one tool: the comment.</strong> Adapted from a source, inspired by a source, or copied outright, say which, in one line, above the function. That line is cheaper than the meeting you will otherwise have with the Dean of Students.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 5. LICENSES + OPEN SOURCE ══════════════ -->
+<section class="slide" data-phase="1" data-notes="<b>5:00 to 5:45.</b> Fast slide. Do not linger.
+
+The professional stakes are the hook here: a GPL snippet dropped into proprietary production code is a licensing problem that outlives the course. This is one of the few integrity rules that follows them into industry with legal weight attached.
+
+Ask quickly: how many of you have ever read the license on code you copied? Usually near zero hands. Let the silence do the work, then move on.">
+  <div class="eyebrow"><span class="tick"></span>Decision 1 continued · the part that follows you to work</div>
+  <h2>Attribution is an academic rule. Licensing is a legal one.</h2>
+  <div class="cols-2" style="margin-top:30px;gap:30px">
+    <div class="card rule-gold">
+      <h3 class="gold">In the course</h3>
+      <p style="margin-top:8px">Copying verbatim without a comment is plagiarism. It is graded, reported, and it stays in your student record.</p>
+    </div>
+    <div class="card rule">
+      <h3 class="crimson">In production</h3>
+      <p style="margin-top:8px">Copying a GPL-licensed snippet into proprietary code is a licensing violation. Nobody grades that. Counsel handles it, and your employer inherits the exposure.</p>
+    </div>
+  </div>
+  <p style="margin-top:28px;max-width:76ch">The habit that satisfies both: <strong>check the license, note it in a comment, adapt rather than paste.</strong> Four seconds now, and the same four seconds protects you in a code review five years from now.</p>
+</section>
+
+<!-- ══════════════ 6. AI FRONTIER ══════════════ -->
+<section class="slide" data-phase="2" data-notes="<b>5:45 to 7:00.</b> Four cards. Read the headers, expand on the two that matter most to your room.
+
+<b>Prompt overlap</b> is the one they have not thought about: similar prompts produce near-identical output, and two students submitting near-identical output looks exactly like collusion regardless of intent. There is no way to prove you did not coordinate.
+
+<b>The default rule</b> is the sentence to say slowly. Unless the syllabus says otherwise, AI assistance is treated as assistance from another person. Silence in a syllabus is not permission.
+
+Hallucinated citations: warn them that a fabricated reference in a lit review reads as fabrication, not as a tool error. The tool does not take the hit. They do.">
+  <div class="eyebrow"><span class="tick"></span>Decision 2 of 4 · Generative AI</div>
+  <h2>Four things that will get you in trouble faster than plagiarism.</h2>
+  <div class="cols-2" style="margin-top:26px;gap:18px">
+    <div class="card rule"><h3>Disclosure is not optional</h3><p>Using AI to draft prose or code without saying so is a violation, even when the output is good.</p></div>
+    <div class="card rule"><h3>Hallucinated sources are yours</h3><p>A fabricated reference in your literature review is read as fabrication. The tool does not take the hit.</p></div>
+    <div class="card rule"><h3>Prompt overlap looks like collusion</h3><p>Similar prompts produce near-identical output. Two identical submissions look coordinated whether or not you ever spoke.</p></div>
+    <div class="card rule-gold"><h3 class="gold">The default rule</h3><p>Unless your syllabus says otherwise, using AI counts as unauthorized help from another person. <strong>Silence is not permission.</strong></p></div>
+  </div>
+</section>
+
+<!-- ══════════════ 7. AI POLICY SCENARIO ══════════════ -->
+<section class="slide" data-phase="2" data-notes="<b>7:00 to 8:45.</b> Decision two, live vote. This one splits rooms hard and it should.
+
+Take the count. Then reveal. Expect pushback on 'but comments are not really prose.' That objection is the whole lesson: <b>they read the policy as being about the interesting part of the work, and the policy says all final prose.</b>
+
+The move to teach: when the policy is ambiguous to you, the ambiguity is not a loophole, it is a prompt to ask. One email, timestamped, before the deadline. That email is also your evidence.">
+  <div class="eyebrow"><span class="tick"></span>Decision 2 of 4 · vote before the reveal</div>
+  <h2 style="font-size:42px">Read the policy. Then read what the student did.</h2>
+  <div class="row" style="margin-top:20px;gap:28px">
+    <div style="flex:0 0 430px">
+      <div class="card" style="border-left:2px solid var(--cream-faint)">
+        <div class="code-label">From the syllabus</div>
+        <p style="font-size:15px;color:var(--cream);font-style:italic;line-height:1.5">"GenAI is permitted only for brainstorming and outlining. All final code and prose must be authored by the student."</p>
+      </div>
+      <div class="card" style="margin-top:14px;border-left:2px solid var(--crimson)">
+        <div class="code-label">What happened</div>
+        <p style="font-size:15px;color:var(--cream);line-height:1.5">A student writes all their own code, then uses ChatGPT to generate the comments and documentation. To save time.</p>
+      </div>
+    </div>
+    <div class="grow">
+      <h3 style="margin-bottom:12px;font-size:19px">Violation?</h3>
+      <div class="poll" data-poll="p2">
+        <button class="opt" data-i="0" data-correct="1"><span class="fill"></span><span class="key">A</span><span class="txt">Yes. Documentation is prose in the final submission.</span><span class="tally">0</span></button>
+        <button class="opt" data-i="1"><span class="fill"></span><span class="key">B</span><span class="txt">No. The code is theirs. Comments are scaffolding.</span><span class="tally">0</span></button>
+      </div>
+      <div class="poll-note" style="margin-top:14px">
+        <button class="btn" data-reveal="r3" disabled>Reveal</button>
+      </div>
+      <div class="reveal" id="r3" style="margin-top:16px">
+        <div class="verdict"><span class="crimson">Yes, it is a violation.</span></div>
+        <p style="font-size:15px">Comments and documentation are prose, and they ship inside the final submission. The policy says <em>all</em> final prose. Intent does not change what was submitted.</p>
+        <p style="font-size:15px;margin-top:10px"><strong class="gold">The habit:</strong> when a policy feels ambiguous to you, that is not a loophole. It is a prompt to send one email before the deadline. That email is also your evidence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 8. COMPAS ══════════════ -->
+<section class="slide" data-phase="3" data-notes="<b>8:45 to 9:45.</b> Shift the register here. The first half was about their grade. This half is about other people.
+
+Give the one-line definition of COMPAS, then let the bars animate. ProPublica's 2016 investigation is the source, and their methodology was contested by Northpointe. <b>Say that out loud.</b> Contested findings are still the right example, because the dispute itself is about which fairness metric counts, which is exactly the judgment call your students will face.
+
+The failure was not a bug. The training data encoded existing policing and sentencing patterns, and the model learned them faithfully.">
+  <div class="eyebrow"><span class="tick"></span>What it costs · Case 1</div>
+  <h2>COMPAS: a risk score used in U.S. courts.</h2>
+  <p style="margin-top:14px;max-width:70ch">In 2016, ProPublica examined an algorithm that predicts whether a defendant will reoffend, and reported a pattern in who it got wrong.</p>
+  <div class="row" style="margin-top:26px;gap:44px">
+    <div style="flex:0 0 500px">
+      <div class="small" style="margin-bottom:14px;color:var(--cream)">Defendants who did <strong>not</strong> reoffend, but were labeled high risk</div>
+      <div class="stat">
+        <div class="stat-top"><span class="stat-label">Black defendants</span><span class="stat-val crimson" data-count="45">0%</span></div>
+        <div class="track"><div class="bar b1" data-w="45"></div></div>
+      </div>
+      <div class="stat">
+        <div class="stat-top"><span class="stat-label">White defendants</span><span class="stat-val" style="color:var(--cream-dim)" data-count="23">0%</span></div>
+        <div class="track"><div class="bar b2" data-w="23"></div></div>
+      </div>
+    </div>
+    <div class="grow">
+      <div class="card rule">
+        <h3>The failure was not a bug</h3>
+        <p style="margin-top:8px">The model was trained on historical arrest and sentencing data. It learned the patterns in that data accurately. Those patterns were not neutral, so neither was the score.</p>
+      </div>
+      <p class="small" style="margin-top:14px">Northpointe, the vendor, disputed ProPublica's analysis. That dispute is about which definition of fairness applies, which is precisely the judgment you will be asked to make.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 9. AMAZON ══════════════ -->
+<section class="slide" data-phase="3" data-notes="<b>9:45 to 10:30.</b> Faster than COMPAS. The detail that makes the room react is the word 'women's' being penalized: women's chess club captain, all-women's colleges.
+
+Amazon built it in 2014, found the problem, and scrapped the tool. Give them that ending, because it is the counterexample: someone did check, and the check was the ethical act.
+
+Then land the pivot into the research scenario: nobody at Amazon set out to build a sexist filter. That is what makes the next slide hard.">
+  <div class="eyebrow"><span class="tick"></span>What it costs · Case 2</div>
+  <h2>Amazon's resume screener taught itself who belonged.</h2>
+  <div class="cols-2" style="margin-top:30px;gap:30px">
+    <div>
+      <div class="card rule">
+        <h3>What it learned</h3>
+        <p style="margin-top:8px">The system downgraded resumes containing the word "women's," as in <em>women's chess club captain</em>. It penalized graduates of all-women's colleges. It rewarded verbs that appeared more often in resumes written by men.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card rule-gold">
+        <h3 class="gold">Why</h3>
+        <p style="margin-top:8px">It was trained on ten years of resumes submitted to a male-dominated industry. It concluded, correctly given its data, that male candidates were the pattern for success.</p>
+      </div>
+    </div>
+  </div>
+  <p style="margin-top:26px;max-width:78ch">Amazon found the problem and scrapped the tool. <strong>That is the part worth copying.</strong> Nobody there set out to build a discriminatory filter, which is exactly what makes the next decision difficult.</p>
+</section>
+
+<!-- ══════════════ 10. RESEARCH ETHICS DILEMMA ══════════════ -->
+<section class="slide" data-phase="3" data-notes="<b>10:30 to 12:15.</b> The hardest decision in the session. Do not rush the vote and do not shame anyone who picks A.
+
+<b>Say the quiet part:</b> A is tempting because the power gradient is real. Your advisor controls your funding, your timeline, and your letters. Pretending that is not a factor makes the lesson useless.
+
+<b>Before the vote, twenty seconds with the person next to them.</b> Turn and say which one you would pick and why. Saying it to one person first raises the hands for A, which is the honest split you want.
+
+Take the count, then reveal. The key move in the reveal is that the excluded 5% is not noise, it is a finding. Model fails on one demographic equals the result, not an inconvenience.
+
+Then give them the practical version: you rarely have to choose between reporting and surviving. Write it into the limitations section and put it in email. Documented concerns protect you.">
+  <div class="eyebrow"><span class="tick"></span>Decision 3 of 4 · the one with a power gradient</div>
+  <h2 style="font-size:42px">Your model is perfect. If you drop 5% of the data.</h2>
+  <p style="margin-top:14px;max-width:74ch">You are a research assistant. Excluding one demographic group's data makes your results clean. Your advisor is under pressure to publish, and controls your funding and your letters.</p>
+  <div class="row" style="margin-top:22px;gap:28px">
+    <div style="flex:0 0 470px">
+      <div class="poll" data-poll="p3">
+        <button class="opt" data-i="0"><span class="fill"></span><span class="key">A</span><span class="txt">Exclude it and publish. It is 5%.</span><span class="tally">0</span></button>
+        <button class="opt" data-i="1" data-correct="1"><span class="fill"></span><span class="key">B</span><span class="txt">Report it, even if that delays the paper.</span><span class="tally">0</span></button>
+      </div>
+      <div class="poll-note" style="margin-top:14px">
+        <button class="btn" data-reveal="r4" disabled>Reveal</button>
+      </div>
+    </div>
+    <div class="grow">
+      <div class="card prehide" style="border-left:2px solid var(--cream-faint)">
+        <div class="code-label">Vote honestly</div>
+        <p style="font-size:15px;color:var(--cream);line-height:1.5">Not what the ethics board would want. What you would actually do at 11 p.m. with an advisor waiting on the draft and your funding on the line.</p>
+        <p style="font-size:14px;margin-top:10px;color:var(--cream-faint)">If nobody in the room picks A, nobody in the room is being honest.</p>
+      </div>
+      <div class="reveal" id="r4">
+        <div class="verdict"><span class="gold">B, and the reason matters.</span></div>
+        <p style="font-size:15px">The excluded 5% is not noise. <strong>It is the finding.</strong> A model that fails on one demographic group has told you something true about itself, and dropping the evidence is data manipulation regardless of how small the subset is. This is the mechanism behind both cases you just saw.</p>
+        <p style="font-size:15px;margin-top:10px"><strong class="gold">The practical version:</strong> you are rarely choosing between honesty and survival. Write it into the limitations section, and put your concern in email. Documented concerns protect you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 11. TIME MANAGEMENT ══════════════ -->
+<section class="slide" data-phase="4" data-notes="<b>12:15 to 13:15.</b> The most useful slide for prevention, and the one nobody puts in an integrity talk.
+
+Research on self-regulated learning consistently identifies time management as the hardest strategy to develop and the one least often taught explicitly (Fahrni, Hascher &amp; Prasse, 2025). Almost nobody plans to cheat at the start of a project.
+
+Ask the question on the slide and give them <b>ten seconds of actual silence</b> to answer it privately. Resist filling the silence. That pause is the intervention.
+
+Then the three moves. 'Ask, do not assume' is the one to emphasize: asking for help early is a professional skill, not an admission of weakness.">
+  <div class="eyebrow"><span class="tick"></span>Decision 4 of 4 · the moment it actually happens</div>
+  <h2>Nobody plans to cheat at the start of a project.</h2>
+  <p class="lede" style="margin-top:20px">They run out of time. Then a bad option starts looking like the only option.</p>
+  <div class="card rule-gold" style="margin-top:22px;background:transparent">
+    <h3 class="gold">Answer this one privately, right now</h3>
+    <p style="font-size:16px;color:var(--cream);margin-top:6px">In your current semester, which assignment are you most likely to be finishing at 2 a.m. the night it is due?</p>
+  </div>
+  <div class="cols-3" style="margin-top:22px">
+    <div class="card"><h3>Ask, do not assume</h3><p>Asking early is a professional skill. Every senior person you admire got there by asking.</p></div>
+    <div class="card"><h3>Reusing your own work is still a violation</h3><p>Submitting prior work needs written approval from every instructor involved. Yes, even your own paper.</p></div>
+    <div class="card"><h3>Report accurately</h3><p>Internships, participation, results, and the reason you need the extension. Honesty about the timeline is part of it.</p></div>
+  </div>
+</section>
+
+<!-- ══════════════ 12. SELF CHECK ══════════════ -->
+<section class="slide" data-phase="4" data-notes="<b>13:15 to 14:00.</b> Silent, personal, nothing leaves the browser. Tell them that, because it changes how honestly they answer.
+
+Read the four items aloud slowly, one every eight seconds. Do not ask for a show of hands afterward and do not ask anyone to share. The value is entirely in the private noticing.
+
+If you want one voice at the end, ask only: 'which one was hardest to click?' Nobody has to say why.">
+  <div class="eyebrow"><span class="tick"></span>Ninety seconds, silent, nothing is recorded</div>
+  <h2 style="font-size:44px">Check only what is true today.</h2>
+  <div class="cols-2" style="margin-top:26px;gap:16px">
+    <button class="check"><span class="box">✓</span><span class="ct"><b>I have read the AI policy in every syllabus I am carrying.</b><span>Not skimmed. Read.</span></span></button>
+    <button class="check"><span class="box">✓</span><span class="ct"><b>I could name the citation format my field expects for AI use.</b><span>APA, IEEE, or whatever your advisor uses.</span></span></button>
+    <button class="check"><span class="box">✓</span><span class="ct"><b>My current code has comments marking what I adapted.</b><span>Go look. Right now counts.</span></span></button>
+    <button class="check"><span class="box">✓</span><span class="ct"><b>I know who I would ask if I were stuck at 2 a.m. tomorrow.</b><span>A name, not a category.</span></span></button>
+  </div>
+  <div class="reveal" id="r5" style="margin-top:24px">
+    <p style="font-size:16px;color:var(--cream)">Whatever you left unchecked is your actual risk. Not a character flaw, just an unfinished task. <strong class="gold">Pick one and finish it this week.</strong></p>
+  </div>
+  <div class="poll-note" style="margin-top:16px"><button class="btn ghost" data-reveal="r5">Show what this means</button></div>
+</section>
+
+<!-- ══════════════ 13. SCAVENGER HUNT ══════════════ -->
+<section class="slide" data-phase="4" data-notes="<b>14:00 to 14:40.</b> Start the clock and stop talking. Two minutes runs long if you have the time; ninety seconds works if you are behind.
+
+Walk the room while they search. That is the only moment in fifteen minutes where you are close enough for someone to ask you a quiet question, and someone always does.
+
+If you are behind schedule, cut this to a single item: the AI citation format for their field.
+
+Have three or four people call out what they found and where. If nobody finds the handbook section, that is worth saying out loud, because it means the resource is buried and they should not feel stupid for missing it.">
+  <div class="eyebrow"><span class="tick"></span>Find it now, not in week eleven</div>
+  <h2>Two minutes. Phones out. Call it out when you find it.</h2>
+  <div class="row" style="margin-top:26px;gap:38px">
+    <div class="grow">
+      <div class="cols-3" style="gap:16px">
+        <div class="card rule"><span class="num">01</span><h3>Luddy graduate handbook</h3><p>Find the academic integrity section. Note the page number.</p></div>
+        <div class="card rule"><span class="num">02</span><h3>Writing center</h3><p>Find the page where you book an appointment. Bookmark it.</p></div>
+        <div class="card rule"><span class="num">03</span><h3>AI citation format</h3><p>Find how your field cites generative AI. APA and IEEE differ.</p></div>
+      </div>
+      <p class="small" style="margin-top:18px">Whoever finds one first, say it loud enough for the room. Reading it off someone else's screen is allowed here, and that is the whole point.</p>
+    </div>
+    <div style="flex:0 0 250px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:14px">
+      <div class="bigclock" id="hunt">2:00</div>
+      <div class="row" style="gap:8px">
+        <button class="btn" id="huntBtn">Start</button>
+        <button class="btn ghost" id="huntReset">Reset</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 14. CLOSE ══════════════ -->
+<section class="slide" data-phase="4" data-notes="<b>14:40 to 15:00.</b> Land it and stop. Do not add a summary.
+
+Read the three questions once. Tell them these fit on a sticky note and answer roughly 90 percent of what they will encounter.
+
+<b>Final line, say it exactly:</b> integrity is not about whether you are a good person. It is about whether you built the habit before you needed it.
+
+Then take questions, or end. Do not thank them for their attention.">
+  <div class="eyebrow"><span class="tick"></span>What you carry out of this room</div>
+  <h2 style="font-size:46px">Three questions. Before every assignment,<br>every paper, every commit.</h2>
+  <div class="cols-3" style="margin-top:34px">
+    <div class="card rule-gold"><span class="num gold">01</span><h3>What is allowed here?</h3><p style="margin-top:6px">Read the actual policy. Silence is not permission.</p></div>
+    <div class="card rule-gold"><span class="num gold">02</span><h3>What of this is mine?</h3><p style="margin-top:6px">If you cannot draw the line, that is your answer.</p></div>
+    <div class="card rule-gold"><span class="num gold">03</span><h3>What do I disclose?</h3><p style="margin-top:6px">One comment. One line in the methods. One email.</p></div>
+  </div>
+  <div style="margin-top:38px;padding-top:26px;border-top:1px solid var(--line)">
+    <p class="lede" style="max-width:80ch">Your degree is worth what the field believes about the people who hold it. <strong>Integrity is not about whether you are a good person. It is about whether you built the habit before you needed it.</strong></p>
+  </div>
+</section>
+
+<!-- ══════════════ chrome ══════════════ -->
+<div id="rail">
+  <div id="phase-name">Open</div>
+  <div id="phases"></div>
+  <div id="clock"><span class="dot"></span><span id="ctime">0:00</span><span style="opacity:.5">/ 15:00</span></div>
+  <div id="pgnum">1/14</div>
+</div>
+<div id="help">← → move · N notes · T timer · F full · R reset</div>
+<div id="src">Adapted from Luddy academic integrity materials. Session design follows Fahrni, Hascher &amp; Prasse (2025), <em>Learning in Context</em> 2, 100007. COMPAS figures: ProPublica (2016), disputed by Northpointe.</div>
+
+<div id="notes"><h4>Presenter notes</h4><div class="nb"></div></div>
+
+</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var stage = document.getElementById('stage');
+  var notes = document.getElementById('notes');
+  var notesBody = notes.querySelector('.nb');
+  var phaseNames = ['Open','Plan · what counts as mine','Monitor · the AI line','Stakes · who it lands on','Reflect · your own habit'];
+  var phaseMins  = [2, 3, 3, 4, 3];
+  var cur = 0, notesOn = false;
+
+  /* ---- phase rail ---- */
+  var phasesEl = document.getElementById('phases');
+  var total = phaseMins.reduce(function(a,b){return a+b},0);
+  phaseMins.forEach(function(m){
+    var d = document.createElement('div');
+    d.className = 'ph';
+    d.style.flex = '1 1 ' + (m/total*100) + '%';
+    d.innerHTML = '<i></i>';
+    phasesEl.appendChild(d);
+  });
+  var phEls = Array.prototype.slice.call(phasesEl.children);
+
+  /* ---- scaling ---- */
+  function fit(){
+    var s = Math.min(window.innerWidth/1280, window.innerHeight/720);
+    stage.style.transform = 'translate(-50%,-50%) scale(' + s + ')';
+  }
+  window.addEventListener('resize', fit); fit();
+
+  /* ---- navigation ---- */
+  function show(i){
+    if(i < 0 || i >= slides.length) return;
+    slides[cur].classList.remove('active');
+    cur = i;
+    var sl = slides[cur];
+    sl.classList.add('active');
+    document.getElementById('pgnum').textContent = (cur+1) + '/' + slides.length;
+
+    var ph = parseInt(sl.getAttribute('data-phase'), 10);
+    document.getElementById('phase-name').textContent = phaseNames[ph];
+    phEls.forEach(function(el, k){
+      el.classList.toggle('on', k === ph);
+      el.classList.toggle('done', k < ph);
+      el.querySelector('i').style.width = k < ph ? '100%' : (k === ph ? '100%' : '0');
+    });
+
+    notesBody.innerHTML = sl.getAttribute('data-notes') || 'No notes for this slide.';
+    animate(sl);
+    if(!running && cur > 0) startClock();
+  }
+  function animate(sl){
+    sl.querySelectorAll('.bar').forEach(function(b){
+      b.style.width = '0';
+      setTimeout(function(){ b.style.width = b.getAttribute('data-w') + '%'; }, 220);
+    });
+    sl.querySelectorAll('[data-count]').forEach(function(el){
+      var target = parseInt(el.getAttribute('data-count'), 10), n = 0;
+      var iv = setInterval(function(){
+        n += Math.max(1, Math.round(target/22));
+        if(n >= target){ n = target; clearInterval(iv); }
+        el.textContent = n + '%';
+      }, 34);
+    });
+  }
+
+  document.addEventListener('keydown', function(e){
+    var k = e.key;
+    if(k === 'ArrowRight' || k === ' ' || k === 'PageDown'){ e.preventDefault(); show(cur+1); }
+    else if(k === 'ArrowLeft' || k === 'PageUp'){ e.preventDefault(); show(cur-1); }
+    else if(k === 'n' || k === 'N'){ notesOn = !notesOn; notes.classList.toggle('show', notesOn); }
+    else if(k === 't' || k === 'T'){ toggleClock(); }
+    else if(k === 'f' || k === 'F'){
+      if(document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen();
+    }
+    else if(k === 'r' || k === 'R'){ resetClock(); }
+    else if(k === 'Home'){ show(0); }
+    else if(k === 'End'){ show(slides.length-1); }
+  });
+
+  /* ---- session clock ---- */
+  var secs = 0, running = false, iv = null;
+  var ctime = document.getElementById('ctime');
+  var clockEl = document.getElementById('clock');
+  function fmt(s){ return Math.floor(s/60) + ':' + ('0' + (s%60)).slice(-2); }
+  function tick(){
+    secs++;
+    ctime.textContent = fmt(secs);
+    clockEl.classList.toggle('over', secs > 900);
+  }
+  function startClock(){ if(running) return; running = true; clockEl.classList.add('run'); iv = setInterval(tick, 1000); }
+  function toggleClock(){
+    if(running){ running = false; clearInterval(iv); clockEl.classList.remove('run'); }
+    else startClock();
+  }
+  function resetClock(){
+    running = false; clearInterval(iv); secs = 0;
+    ctime.textContent = '0:00';
+    clockEl.classList.remove('run','over');
+  }
+  clockEl.addEventListener('click', toggleClock);
+
+  /* ---- polls ---- */
+  document.querySelectorAll('[data-poll]').forEach(function(poll){
+    var opts = Array.prototype.slice.call(poll.querySelectorAll('.opt'));
+    var counts = opts.map(function(){ return 0; });
+    var revealBtn = poll.parentElement.querySelector('[data-reveal]');
+    opts.forEach(function(opt, i){
+      opt.addEventListener('click', function(){
+        counts[i]++;
+        opt.classList.add('picked');
+        var max = Math.max.apply(null, counts) || 1;
+        opts.forEach(function(o, j){
+          o.querySelector('.tally').textContent = counts[j];
+          o.querySelector('.fill').style.width = (counts[j]/max*100) + '%';
+        });
+        if(revealBtn) revealBtn.disabled = false;
+      });
+    });
+  });
+
+  /* ---- reveals ---- */
+  document.querySelectorAll('[data-reveal]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var t = document.getElementById(btn.getAttribute('data-reveal'));
+      if(t) t.classList.add('show');
+      btn.disabled = true;
+      btn.textContent = 'Revealed';
+      var sl = btn.closest('.slide');
+      sl.querySelectorAll('.opt[data-correct]').forEach(function(o){ o.classList.add('correct'); });
+      sl.querySelectorAll('.prehide').forEach(function(el){ el.style.display = 'none'; });
+    });
+  });
+
+  /* ---- self check ---- */
+  document.querySelectorAll('.check').forEach(function(c){
+    c.setAttribute('aria-pressed','false');
+    c.addEventListener('click', function(){
+      var on = c.classList.toggle('on');
+      c.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  });
+
+  /* ---- scavenger hunt timer ---- */
+  var hunt = document.getElementById('hunt');
+  var huntBtn = document.getElementById('huntBtn');
+  var hSecs = 120, hRun = false, hIv = null;
+  function hDraw(){
+    hunt.textContent = Math.floor(hSecs/60) + ':' + ('0' + (hSecs%60)).slice(-2);
+    hunt.classList.toggle('warn', hSecs <= 30);
+  }
+  huntBtn.addEventListener('click', function(){
+    if(hRun){ hRun = false; clearInterval(hIv); huntBtn.textContent = 'Resume'; return; }
+    hRun = true; huntBtn.textContent = 'Pause';
+    hIv = setInterval(function(){
+      hSecs--; hDraw();
+      if(hSecs <= 0){ clearInterval(hIv); hRun = false; huntBtn.textContent = 'Time'; }
+    }, 1000);
+  });
+  document.getElementById('huntReset').addEventListener('click', function(){
+    clearInterval(hIv); hRun = false; hSecs = 120; hDraw(); huntBtn.textContent = 'Start';
+  });
+
+  show(0);
+})();
+</script>
+</body>
+</html>
