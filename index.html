@@ -150,7 +150,7 @@ strong{color:var(--cream);font-weight:600}
   color:var(--cream-dim);
 }
 .opt .txt{position:relative;flex:1;line-height:1.35}
-.opt .tally{position:relative;font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--gold);min-width:26px;text-align:right}
+.opt .tally{display:none}
 .opt.picked{border-color:var(--gold)}
 .opt.picked .key{border-color:var(--gold);color:var(--gold)}
 .opt.correct{border-color:var(--teal)}
@@ -266,7 +266,7 @@ Press → to start the timer. Press N any time to toggle these notes. Press T to
 </section>
 
 <!-- ══════════════ 2. OPENING POLL ══════════════ -->
-<section class="slide" data-phase="0" data-notes="<b>0:20 to 2:00.</b> Read the setup, then ask for hands one option at a time. Click that option once per hand you count. The Reveal button stays locked until at least one vote lands, so you cannot skip the count.
+<section class="slide" data-phase="0" data-notes="<b>0:20 to 2:00.</b> Read the setup, then ask for hands one option at a time. Do not count heads. Eyeball each show of hands and click that option a few times to rough in the proportion, two or three clicks for a small showing and six or seven for a big one. The bars scale against each other and no number is displayed, so only the shape matters. Alt-click takes one back if you overshoot. Reveal stays locked until something is on the board.
 
 <b>Say it before you ask:</b> hands up honestly, nobody is writing anything down. In a room where you are the one grading them, they will default to the answer that sounds right. Name that out loud and you get better data.
 
@@ -741,15 +741,17 @@ Then take questions, or end. Do not thank them for their attention.">
     var counts = opts.map(function(){ return 0; });
     var revealBtn = poll.parentElement.querySelector('[data-reveal]');
     opts.forEach(function(opt, i){
-      opt.addEventListener('click', function(){
-        counts[i]++;
-        opt.classList.add('picked');
-        var max = Math.max.apply(null, counts) || 1;
+      opt.addEventListener('click', function(e){
+        /* alt-click takes one back, so an overcount is recoverable mid-slide */
+        counts[i] = Math.max(0, counts[i] + (e.altKey ? -1 : 1));
+        var max = Math.max.apply(null, counts) || 1, total = 0;
         opts.forEach(function(o, j){
+          total += counts[j];
+          o.classList.toggle('picked', counts[j] > 0);
           o.querySelector('.tally').textContent = counts[j];
           o.querySelector('.fill').style.width = (counts[j]/max*100) + '%';
         });
-        if(revealBtn) revealBtn.disabled = false;
+        if(revealBtn) revealBtn.disabled = total === 0;
       });
     });
   });

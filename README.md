@@ -24,7 +24,9 @@ The session walks through four decisions (code attribution, generative AI policy
 
 Presenter notes carry the timing plan for each slide (0:00–15:00) plus what to say and what to expect from the room. The session clock starts automatically on the first advance.
 
-Polls are counted live by clicking an option once per raised hand. The Reveal button stays locked until at least one vote is recorded.
+Polls on slides 2, 7, and 10 are driven entirely from the presenter's machine — the audience responds by raising hands and never touches the page. Ask for hands one option at a time, then click that option a few times to rough in the proportion. No count is displayed and the bars scale against each other, so the shape of the split is the only thing that reads on screen. Alt-click removes a click if you overshoot. The Reveal button stays locked until something has been entered.
+
+Voting is mouse-only: the spacebar is bound to "next slide," so a presentation clicker advances the deck rather than registering a vote.
 
 ## Files
 
